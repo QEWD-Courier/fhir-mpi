@@ -1,0 +1,21 @@
+{
+  "documents": {
+    "Patient": {
+      "pathsToIndex": {
+        "by_id/:id/id": {
+          "documentName": "PatientIndex",
+          "path": "by_uuid/:value/:id"
+        },
+        "by_id/:id/name/:no/family": {
+          "documentName": "PatientIndex",
+          "path": "by_surname/:value/:id/:no",
+          "apply": "toLowerCase"
+        },
+        "by_id/:id/address/:no/postalCode": {
+          "documentName": "PatientIndex",
+          "path": "by_postcode/:value/:id/:no"
+        }
+      }
+    }
+  }
+}

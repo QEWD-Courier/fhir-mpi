@@ -1,0 +1,17 @@
+[
+  {
+    "uri": "/mpi/Patient",
+    "method": "POST",
+    "handler": "createPatient"
+  },
+  {
+    "uri": "/mpi/Patient/:id",
+    "method": "GET",
+    "handler": "getPatient"
+  },
+  {
+    "uri": "/mpi/Patient",
+    "method": "GET",
+    "handler": "search"
+  }
+]
