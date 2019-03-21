@@ -1,7 +1,7 @@
 # fhir-mpi: Demonstration FHIR-based MPI
  
 Rob Tweed <rtweed@mgateway.com>  
-20 December 2019, M/Gateway Developments Ltd [http://www.mgateway.com](http://www.mgateway.com)  
+12 March 2019, M/Gateway Developments Ltd [http://www.mgateway.com](http://www.mgateway.com)  
 
 Twitter: @rtweed
 
