@@ -40,10 +40,32 @@ module.exports = function(args, finished) {
   // if necessary
 
   var patientId = args.id;
-  var type = 'nhs';
-  if (args.req.query.type === 'chi') {
-    type = 'chi';
+
+  /*
+  if (args.session.nhsNumber &&  args.session.nhsNumber !== '') {
+    patientId = args.session.nhsNumber;
   }
+  else if (args.session.chiNumber &&  args.session.chiNumber !== '') {
+    patientId = args.session.chiNumber;
+  }
+  if (!patientId) {
+    return finished({error: 'Patient Id was not defined'});
+  }
+
+  */
+
+  var patientIndex = this.db.use('PatientIndex', 'by_identifier', patientId);
+  if (!patientIndex.exists) {
+    return finished({
+      error: 'The specified Patient Id does not exist',
+      status: {
+        code: 404
+      }
+    });
+  }
+
+  var id = patientIndex.firstChild.name;
+  var old_fhir = this.db.use('Patient', 'by_id', id).getDocument(true);
 
   var fhir = args.req.body;
   fhir.resourceType = 'Patient';
@@ -102,26 +124,12 @@ module.exports = function(args, finished) {
 
     // add FHIR resource identifiers
 
-    fhir.id = uuid();
-    var id = patientDoc.$('next_id').increment();
-    fhir.identifier = [];
-    if (type === 'nhs') {
-      fhir.identifier.push({
-        system: 'https://fhir.nhs.uk/Id/nhs-number',
-        value: patientId.toString()
-      });
-    }
-    if (type === 'chi') {
-      fhir.identifier.push({
-        system: 'urn:oid:2.16.840.1.113883.2.1.3.2.4.16.53',
-        value: patientId.toString()
-      });
-    }
+    fhir.id = old_fhir.id;
+    fhir.identifier = old_fhir.identifier;
 
-    // save FHIR resource
-    //  indexing done by event-driven indexing mechanism
+    // save updated FHIR resource
+    //  re-indexing done by event-driven indexing mechanism
     //    see /docStoreEvents
-
 
     patientDoc.$(['by_id', id]).setDocument(fhir);
 

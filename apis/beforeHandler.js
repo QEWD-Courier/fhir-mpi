@@ -24,40 +24,14 @@
  |  limitations under the License.                                          |
  ----------------------------------------------------------------------------
 
-  19 March 2019
+  15 March 2019
 
 */
 
 module.exports = function(args, finished) {
-
-  /*
-  var patientId;
-  if (args.session.nhsNumber &&  args.session.nhsNumber !== '') {
-    patientId = args.session.nhsNumber;
+  //console.log('** beforeHandler: jwt = ' + JSON.stringify(args.session, null, 2));
+  if (!args.session.nhsNumber) {
+    finished({error: 'You must be logged in'});
+    return false;
   }
-  else if (args.session.chiNumber &&  args.session.chiNumber !== '') {
-    patientId = args.session.chiNumber;
-  }
-  */
-  var patientId = args.id;
-
-  if (!patientId) {
-    return finished({error: 'Patient Id was not defined'});
-  }
-
-  var patientIndex = this.db.use('PatientIndex', 'by_identifier', patientId);
-  if (!patientIndex.exists) {
-    return finished({
-      error: 'The specified Patient Id does not exist',
-      status: {
-        code: 404
-      }
-    });
-  }
-
-  var id = patientIndex.firstChild.name;
-  console.log('** id = ' + id);
-  var fhir = this.db.use('Patient', 'by_id', id).getDocument(true);
-  finished({patient: fhir});
-
 };
