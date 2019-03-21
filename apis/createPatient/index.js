@@ -24,7 +24,7 @@
  |  limitations under the License.                                          |
  ----------------------------------------------------------------------------
 
-  20 March 2019
+  21 March 2019
 
 */
 
@@ -40,6 +40,17 @@ module.exports = function(args, finished) {
   // if necessary
 
   var patientId = args.id;
+
+  var patientIndex = this.db.use('PatientIndex', 'by_identifier', patientId);
+  if (patientIndex.exists) {
+    return finished({
+      error: 'The specified Patient Id already exists',
+      status: {
+        code: 404
+      }
+    });
+  }
+
   var type = 'nhs';
   if (args.req.query.type === 'chi') {
     type = 'chi';
