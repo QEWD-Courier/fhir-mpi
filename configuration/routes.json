@@ -18,5 +18,10 @@
     "uri": "/mpi/Patient",
     "method": "GET",
     "handler": "search"
+  },
+  {
+    "uri": "/mpi/Patient/search/advanced",
+    "method": "GET",
+    "handler": "advancedSearch"
   }
 ]
