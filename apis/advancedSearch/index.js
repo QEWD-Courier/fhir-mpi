@@ -38,7 +38,6 @@ module.exports = function(args, finished) {
   let patientIndex = this.db.use('PatientIndex', query.type, query.value);
   
   if (query.type === 'by_age') {
-    query.type = 'by_birthdate';
     const date = new Date();
     const from = date.getFullYear() - query.from;
     const to = date.getFullYear() - query.to -1;
@@ -49,7 +48,7 @@ module.exports = function(args, finished) {
         to: `${from}-${('0' + (date.getMonth()+1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`
       }
     };
-    patientIndex = this.db.use('PatientIndex', query.type);
+    patientIndex = this.db.use('PatientIndex', 'by_birthdate');
   }
   
   const fhir = {
@@ -60,7 +59,7 @@ module.exports = function(args, finished) {
   const patientDoc = this.db.use('Patient', 'by_id');
   
   patientIndex.forEachChild(params, function(id, node) {
-    const identifier = node && node.firstChild.name ? node.firstChild.name : id;
+    const identifier = query.type === 'by_age' &&  node.firstChild.name ? node.firstChild.name : id;
     const patient = patientDoc.$(identifier).getDocument(true);
     fhir.entry.push({
       resource: patient
