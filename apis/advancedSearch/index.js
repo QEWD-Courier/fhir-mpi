@@ -39,8 +39,8 @@ module.exports = function(args, finished) {
   
   if (query.type === 'by_age') {
     const date = new Date();
-    const from = date.getFullYear() - query.from;
-    const to = date.getFullYear() - query.to -1;
+    const from = date.getFullYear() - query.from +1;
+    const to = date.getFullYear() - query.to;
     
     params = {
       range: {
