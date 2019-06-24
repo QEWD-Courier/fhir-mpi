@@ -104,7 +104,7 @@ module.exports = function(args, finished) {
       var delim = '';
       errors.forEach(function(error) {
         errorText = errorText + delim + error.property + ': ' + error.message;
-        delim = '; ' 
+        delim = '; '
       });
       return finished({error: errorText});
     }
@@ -118,13 +118,13 @@ module.exports = function(args, finished) {
     fhir.identifier = [];
     if (type === 'nhs') {
       fhir.identifier.push({
-        system: 'https://fhir.nhs.uk/Id/nhs-number',
+        system: 'FHIR MPI Service',
         value: patientId.toString()
       });
     }
     if (type === 'chi') {
       fhir.identifier.push({
-        system: 'urn:oid:2.16.840.1.113883.2.1.3.2.4.16.53',
+        system: 'FHIR MPI Service',
         value: patientId.toString()
       });
     }
