@@ -23,5 +23,10 @@
     "uri": "/mpi/Patient/search/advanced",
     "method": "GET",
     "handler": "advancedSearch"
+  },
+  {
+    "uri": "/mpi/Patient/search/clinicalSearch",
+    "method": "POST",
+    "handler": "clinicalSearch"
   }
 ]
