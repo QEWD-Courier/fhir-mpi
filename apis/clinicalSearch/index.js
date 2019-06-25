@@ -31,19 +31,29 @@ module.exports = function(args, finished) {
       const patient = this.db.use('Patient', 'by_id', id).getDocument(true);
       if (range && data.gender) {
         if (patient.birthDate >= range.from && patient.birthDate <= range.to && data.gender === patient.gender) {
-          fhir.entry.push(patient);
+          fhir.entry.push({
+            resource: patient
+          });
         }
       } else if(range && patient.birthDate >= range.from && patient.birthDate <= range.to) {
-        fhir.entry.push(patient);
+        fhir.entry.push({
+          resource: patient
+        });
       } else if (data.gender) {
          if (data.gender === patient.gender) {
-           fhir.entry.push(patient);
+           fhir.entry.push({
+             resource: patient
+           });
          }
       } else if (data.birthDate && patient.birthDate === data.birthDate) {
-        fhir.entry.push(patient);
+        fhir.entry.push({
+          resource: patient
+        });
       }
       if (!range && !data.gender && !data.birthDate) {
-        fhir.entry.push(patient);
+        fhir.entry.push({
+          resource: patient
+        });
       }
     }
   });
