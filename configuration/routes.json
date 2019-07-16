@@ -28,5 +28,17 @@
     "uri": "/mpi/Patient/search/clinicalSearch",
     "method": "POST",
     "handler": "clinicalSearch"
+  },
+  {
+    "uri": "/fhir/stu3/:resource",
+    "method": "GET",
+    "handler": "fhirSearchPatientById",
+    "on_microservice":"mpi_service"
+  },
+  {
+    "uri": "/fhir/stu3/:resource",
+    "method": "POST",
+    "handler": "fhirCreatePatient",
+    "on_microservice":"mpi_service"
   }
 ]
