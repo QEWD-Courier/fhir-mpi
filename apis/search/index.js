@@ -32,7 +32,9 @@ module.exports = function(args, finished) {
   if (args.req.query.name === '') {
     return finished({error: 'Name was not defined'});
   }
-  var patientIndex = this.db.use('PatientIndex', 'by_surname', args.req.query.name);
+  const query = args.req.query.name.toLowerCase();
+  const capitalizeQuery = query.charAt(0).toUpperCase() + query.slice(1);
+  var patientIndex = this.db.use('PatientIndex', 'by_surname', capitalizeQuery);
   if (!patientIndex.exists) {
     return finished({
       error: 'No patient with the specified name could be found',
