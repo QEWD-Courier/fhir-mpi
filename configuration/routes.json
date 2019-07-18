@@ -21,13 +21,18 @@
   },
   {
     "uri": "/mpi/Patient/search/advanced",
-    "method": "GET",
+    "method": "POST",
     "handler": "advancedSearch"
   },
   {
     "uri": "/mpi/Patient/search/clinicalSearch",
     "method": "POST",
     "handler": "clinicalSearch"
+  },
+  {
+    "uri": "/mpi/Patient/search/searchByCity",
+    "method": "POST",
+    "handler": "searchByCity"
   },
   {
     "uri": "/fhir/stu3/:resource",
