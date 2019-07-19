@@ -7,19 +7,31 @@ module.exports = function(args, finished) {
   };
   
   const filterByField = function (patient) {
-    if (body.gender && body.gender === patient.gender) {
+    if (body.gender && body.gender === patient.gender && !body.firstName && !body.lastName) {
       fhir.entry.push({
         resource: patient
       });
-    } else if (body.firstName && body.lastName && body.firstName.toLowerCase() === patient.name[0].given[0].toLowerCase() && body.lastName.toLowerCase() === patient.name[0].family.toLowerCase()) {
+    } else if (body.firstName && body.lastName && body.firstName.toLowerCase() === patient.name[0].given[0].toLowerCase() && body.lastName.toLowerCase() === patient.name[0].family.toLowerCase() && body.gender && body.gender === patient.gender) {
       fhir.entry.push({
         resource: patient
       });
-    } else if (!body.firstName && body.lastName && body.lastName.toLowerCase() === patient.name[0].family.toLowerCase()) {
+    } else if (body.firstName && body.lastName && body.firstName.toLowerCase() === patient.name[0].given[0].toLowerCase() && body.lastName.toLowerCase() === patient.name[0].family.toLowerCase() && !body.gender) {
       fhir.entry.push({
         resource: patient
       });
-    } else if (!body.lastName && body.firstName && body.firstName.toLowerCase() === patient.name[0].given[0].toLowerCase()) {
+    } else if (!body.firstName && body.lastName && body.lastName.toLowerCase() === patient.name[0].family.toLowerCase() && !body.gender) {
+      fhir.entry.push({
+        resource: patient
+      });
+    } else if (!body.firstName && body.lastName && body.lastName.toLowerCase() === patient.name[0].family.toLowerCase() && body.gender && body.gender === patient.gender) {
+      fhir.entry.push({
+        resource: patient
+      });
+    } else if (!body.lastName && body.firstName && body.firstName.toLowerCase() === patient.name[0].given[0].toLowerCase() && !body.gender) {
+      fhir.entry.push({
+        resource: patient
+      });
+    } else if (!body.lastName && body.firstName && body.firstName.toLowerCase() === patient.name[0].given[0].toLowerCase() && body.gender === patient.gender) {
       fhir.entry.push({
         resource: patient
       });
@@ -68,7 +80,6 @@ module.exports = function(args, finished) {
   }
   patientIndex.forEachChild(params, function(id, node) {
     const ptId = body.birthDate ? id : node.firstChild.name;
-    
     if (ptId) {
       const patient = patientDoc.$(ptId).getDocument(true);
       filterByField(patient);
